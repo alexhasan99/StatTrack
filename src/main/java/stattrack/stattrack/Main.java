@@ -1,5 +1,4 @@
-package stattrack.stattrack.gbranch;
-
+package stattrack.stattrack;
 import org.json.JSONObject;
 
 public class Main
@@ -11,7 +10,6 @@ public class Main
         System.out.println(x);
         System.out.println(x.names());
         System.out.println(x.get("data"));
-
     }
 
 }

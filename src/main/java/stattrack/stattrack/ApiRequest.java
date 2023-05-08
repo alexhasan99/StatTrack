@@ -1,4 +1,4 @@
-package stattrack.stattrack.gbranch;
+package stattrack.stattrack;
 
 import org.json.JSONObject;
 
@@ -36,31 +36,6 @@ public class ApiRequest
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static JSONObject parse(String input) {
-        String[] lines = input.split("\n");
-        JSONObject data = new JSONObject();
-
-        for (String line : lines) {
-            String[] parts = line.split("=");
-            if (parts.length == 2) {
-                String key = parts[0].trim();
-                String value = parts[1].trim().replaceAll("\"", "");
-
-                if (key.equals("CREATION-DATE")) {
-                    data.put("creationDate", value);
-                } else if (key.equals("HEADING")) {
-                    String[] headings = value.split(",");
-                    data.put("headings", headings);
-                } else if (key.equals("DATA")) {
-                    String[] values = value.split("\\s+");
-                    data.put("values", values);
-                }
-            }
-        }
-
-        return data;
     }
 }
 
