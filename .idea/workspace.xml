@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="pom och module-info.java filen är ändrade här">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Neo4jConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Relationship.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,33 +50,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/george/Downloads/json-20230227.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/george/Downloads/json-20230227.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RunManager" selected="Application.stattrack.stattrack.gbranch.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.Main" />
+    <configuration name="ScbApiRequest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.test2.ScbApiRequest" />
       <module name="statTrack" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="stattrack.stattrack.*" />
+          <option name="PATTERN" value="stattrack.stattrack.test2.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -81,12 +85,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScbApiRequest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.test2.ScbApiRequest" />
+    <configuration name="lal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.lal" />
       <module name="statTrack" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="stattrack.stattrack.test2.*" />
+          <option name="PATTERN" value="stattrack.stattrack.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -136,10 +140,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.stattrack.stattrack.gbranch.Main" />
+        <item itemvalue="Application.lal" />
         <item itemvalue="Application.test3" />
         <item itemvalue="Application.ScbApiRequest" />
         <item itemvalue="Application.main2" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -157,8 +161,15 @@
       <workItem from="1682509059601" duration="6831000" />
       <workItem from="1682521139763" duration="2050000" />
       <workItem from="1682523543084" duration="13932000" />
-      <workItem from="1682673882385" duration="34390000" />
+      <workItem from="1682673882385" duration="82171000" />
     </task>
+    <task id="LOCAL−00001" summary="pom och module-info.java filen är ändrade här">
+      <created>1683040060680</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1683040060680</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +185,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="pom och module-info.java filen är ändrade här" />
+    <option name="LAST_COMMIT_MESSAGE" value="pom och module-info.java filen är ändrade här" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -192,9 +207,9 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/stattrack/stattrack/Main.java</url>
-          <line>12</line>
-          <properties class="stattrack.stattrack.Main" method="main">
+          <url>file://$PROJECT_DIR$/src/main/java/stattrack/stattrack/lal.java</url>
+          <line>10</line>
+          <properties class="stattrack.stattrack.lal" method="main">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

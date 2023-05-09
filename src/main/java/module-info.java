@@ -5,7 +5,7 @@ module stattrack.stattrack {
     requires json.simple;
     requires org.json;
 
-    requires org.slf4j;
+    requires jackson.databind;
     requires java.net.http;
     requires scb.java.client;
 
