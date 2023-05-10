@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="pom och module-info.java filen är ändrade här">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Neo4jConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Relationship.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,24 +43,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/george/Downloads/json-20230227.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/george/Downloads/json-20230227.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -113,7 +106,7 @@
     </configuration>
     <configuration name="stattrack.stattrack.gbranch.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.gbranch.Main" />
-      <module name="statTrack" />
+      <module name="StatTrack" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="stattrack.stattrack.gbranch.*" />
@@ -162,6 +155,7 @@
       <workItem from="1682521139763" duration="2050000" />
       <workItem from="1682523543084" duration="13932000" />
       <workItem from="1682673882385" duration="82171000" />
+      <workItem from="1683707578520" duration="1173000" />
     </task>
     <task id="LOCAL−00001" summary="pom och module-info.java filen är ändrade här">
       <created>1683040060680</created>
