@@ -2,7 +2,10 @@ package stattrack.stattrack;
 
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
-import org.neo4j.driver.types.Node;
+
+import java.util.Map;
+
+import static org.neo4j.driver.Values.parameters;
 
 
 public class PushToDB {
@@ -13,10 +16,12 @@ public class PushToDB {
     String password = "hamo1212";
     Driver driver;
     Session session;
+    CountyCodeLookup countyCodeLookup;
+    MunicipalityCodeLookup municipalityCodeLookup;
 
 
 
-    public boolean connect(String databaseName) throws Exception {
+    public boolean connect() throws Exception {
         try {
             driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
             session = driver.session();
@@ -36,41 +41,56 @@ public class PushToDB {
         }
         return true;
     }
-    public void push() throws Exception {
+    public void pushFirstApi() throws Exception {
+        municipalityCodeLookup= new MunicipalityCodeLookup();
+        countyCodeLookup = new CountyCodeLookup();
 
         try {
-            // Create a node
-            //session.run("CREATE (n:Person {name: 'Alice', age: 30})");
-            /*Node first = session.run("CREATE (n:Person {name: 'Alice', age: 30}) RETURN n")
-                    .single()
-                    .get("n")
-                    .asNode();
-            Node second = session.run("CREATE (d:Person {name: 'Sargon', age: 20}) RETURN d")
-                    .single()
-                    .get("d")
-                    .asNode();*/
+            for (Map.Entry<String, String> countyEntry : countyCodeLookup.getCountyMap().entrySet()) {
+                String countyCode = countyEntry.getKey();
+                String countyName = countyEntry.getValue();
 
-            Node london = session.run("CREATE (n:City {name: 'London', population: 8982000}) RETURN n")
-                    .single()
-                    .get("n")
-                    .asNode();
-            Node newyork = session.run("CREATE (n:City {name: 'New York', population: 8399000}) RETURN n")
-                    .single()
-                    .get("n")
-                    .asNode();
-            session.run("MATCH (a:Person {name: 'Alice'}), (b:City {name: 'London'}) CREATE (a)-[:LIVES_IN]->(b)");
-            session.run("MATCH (a:Person {name: 'Sargon'}), (b:City {name: 'New York'}) CREATE (a)-[:LIVES_IN]->(b)");
+                // Check if county node already exists
+                Result result = session.run("MATCH (c:County {code: $code}) RETURN c", parameters("code", countyCode));
+                if (result.hasNext()) {
+                    // County node exists, update its name
+                    session.run("MATCH (c:County {code: $code}) SET c.name = $name",
+                            parameters("code", countyCode, "name", countyName));
+                } else {
+                    // County node does not exist, create it
+                    session.run("CREATE (c:County {code: $code, name: $name})",
+                            parameters("code", countyCode, "name", countyName));
+                }
 
+                for (Map.Entry<String, String> municipalityEntry : municipalityCodeLookup.getMunicipalityMap().entrySet()) {
+                    String municipalityCode = municipalityEntry.getKey();
+                    String municipalityName = municipalityEntry.getValue();
 
-    // Create a relationship between the nodes
+                    // Filter municipalities based on the county code
+                    if (municipalityCode.startsWith(countyCode)) {
+                        // Check if municipality node already exists
+                        Result municipalityResult = session.run("MATCH (m:Municipality {code: $code}) RETURN m", parameters("code", municipalityCode));
+                        if (!municipalityResult.hasNext()) {
+                            // Municipality node does not exist, create it
+                            session.run("CREATE (m:Municipality {code: $code, name: $name})", parameters("code", municipalityCode, "name", municipalityName));
+                        }
 
-    // Save the changes to the database
-    /*session.writeTransaction(tx -> {
-        tx.createNode(node1);
-        tx.createNode(node2);
-        tx.createRelationship(relationship);
-        return null;
-    });*/
+                        // Create relationship between county and municipality
+                        // Check if the relationship already exists
+                        Result relationshipResult = session.run("MATCH (c:County {code: $countyCode})-[:HAS]->(m:Municipality {code: $municipalityCode}) RETURN c, m",
+                                parameters("countyCode", countyCode, "municipalityCode", municipalityCode));
+                        if (!relationshipResult.hasNext()) {
+                            // Create relationship between county and municipality
+                            session.run("MATCH (m:Municipality {code: $municipalityCode}) " +
+                                            "WITH m " +
+                                            "MATCH (c:County {code: $countyCode}) " +
+                                            "CREATE (c)-[:HAS]->(m)",
+                                    parameters("municipalityCode", municipalityCode, "countyCode", countyCode));
+                        }
+                    }
+                }
+            }
+
         }catch (Exception e){
             throw new Exception(e);
         }finally {
@@ -81,8 +101,7 @@ public class PushToDB {
     }
     public static void main(String[] args) throws Exception {
         PushToDB p= new PushToDB();
-        p.connect("ff");
-        p.push();
-
+        p.connect();
+        p.pushFirstApi();
     }
 }
