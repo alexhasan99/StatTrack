@@ -1,4 +1,4 @@
-package stattrack.stattrack.gbranch;
+package stattrack.stattrack;
 
 public class KeyValuePair {
     private String[] key;

@@ -1,13 +1,13 @@
-package stattrack.stattrack.gbranch;
+package stattrack.stattrack;
 
 import java.util.Map;
 
 
-public class Node {
+public class TableCreating {
     private String label;
     private Map<String[], Object> properties;
 
-    public Node(String label, Map<String[], Object> properties) {
+    public TableCreating (String label, Map<String[], Object> properties) {
         this.label = label;
         this.properties = properties;
     }

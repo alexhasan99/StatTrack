@@ -3,12 +3,8 @@ package stattrack.stattrack;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 import org.neo4j.driver.types.Node;
-import org.neo4j.graphdb.RelationshipType;
 
-enum RelTypes implements RelationshipType
-{
-    KNOWS
-}
+
 public class PushToDB {
 
     // Connect to Neo4j
@@ -64,7 +60,6 @@ public class PushToDB {
                     .asNode();
             session.run("MATCH (a:Person {name: 'Alice'}), (b:City {name: 'London'}) CREATE (a)-[:LIVES_IN]->(b)");
             session.run("MATCH (a:Person {name: 'Sargon'}), (b:City {name: 'New York'}) CREATE (a)-[:LIVES_IN]->(b)");
-            //session.run("MATCH (a:Person {name: 'Alice'}), (b:Person {name: 'Sargon'}) CREATE (a)-[:KNOWS]->(b)");
 
 
     // Create a relationship between the nodes

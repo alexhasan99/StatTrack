@@ -1,4 +1,4 @@
-package stattrack.stattrack.gbranch;
+package stattrack.stattrack;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
