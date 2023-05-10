@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class Node {
     private String label;
-    private Map<String, Object> properties;
+    private Map<String[], Object> properties;
 
-    public Node(String label, Map<String, Object> properties) {
+    public Node(String label, Map<String[], Object> properties) {
         this.label = label;
         this.properties = properties;
     }
@@ -20,11 +20,11 @@ public class Node {
         this.label = label;
     }
 
-        public Map<String, Object> getProperties() {
+        public Map<String[], Object> getProperties() {
             return properties;
         }
 
-        public void setProperties(Map<String, Object> properties) {
+        public void setProperties(Map<String[], Object> properties) {
             this.properties = properties;
         }
     public String toString() {
