@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="pom och module-info.java filen är ändrade här">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Neo4jConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Relationship.java" afterDir="false" />
+    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="pushar allt kolla på main mestadels finns kommenterad kod oxå kan vara till användning">
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Dataset.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/KeyValuePair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/ApiRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/gbranch/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +157,7 @@
       <workItem from="1682509059601" duration="6831000" />
       <workItem from="1682521139763" duration="2050000" />
       <workItem from="1682523543084" duration="13932000" />
-      <workItem from="1682673882385" duration="82171000" />
+      <workItem from="1682673882385" duration="87700000" />
     </task>
     <task id="LOCAL−00001" summary="pom och module-info.java filen är ändrade här">
       <created>1683040060680</created>
@@ -169,7 +165,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1683040060680</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="pushar allt kolla på main mestadels finns kommenterad kod oxå kan vara till användning">
+      <created>1683656474309</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1683656474310</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +190,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="pom och module-info.java filen är ändrade här" />
-    <option name="LAST_COMMIT_MESSAGE" value="pom och module-info.java filen är ändrade här" />
+    <MESSAGE value="pushar allt kolla på main mestadels finns kommenterad kod oxå kan vara till användning" />
+    <option name="LAST_COMMIT_MESSAGE" value="pushar allt kolla på main mestadels finns kommenterad kod oxå kan vara till användning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
