@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/CountyCodeLookup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/MunicipalityCodeLookup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/TableCreating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/TableCreating.java" afterDir="false" />
-    </list>
+    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
