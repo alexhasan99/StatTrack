@@ -41,7 +41,7 @@ public class PushToDB {
         }
         return true;
     }
-    public void pushFirstApi() throws Exception {
+    public void pushCounties() throws Exception {
         municipalityCodeLookup= new MunicipalityCodeLookup();
         countyCodeLookup = new CountyCodeLookup();
 
@@ -99,6 +99,11 @@ public class PushToDB {
             driver.close();
         }
     }
+    public void pushFirstApi(){
+
+
+    }
+
     public static void main(String[] args) throws Exception {
         PushToDB p= new PushToDB();
         p.connect();
