@@ -3,7 +3,8 @@ package stattrack.stattrack;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.util.*;
 
 import static org.neo4j.driver.Values.parameters;
 
@@ -41,6 +42,7 @@ public class PushToDB {
         }
         return true;
     }
+
     public void pushCounties() throws Exception {
         municipalityCodeLookup= new MunicipalityCodeLookup();
         countyCodeLookup = new CountyCodeLookup();
@@ -99,14 +101,22 @@ public class PushToDB {
             driver.close();
         }
     }
-    public void pushFirstApi(){
+    public void pushFirstApi() throws MalformedURLException {
+        /*for (KeyValuePair keyValuePair : TablesRequest.FirstApi()) {
+            String[] keys = keyValuePair.getKey();
 
-
+            for (String keyElement : keys) {
+                int keyElementValue = Integer.parseInt(keyElement);
+                // Perform operations with the key element
+                System.out.println("Key Element: " + keyElementValue);
+            }
+        }*/
+        TablesRequest.FirstApi();
     }
 
     public static void main(String[] args) throws Exception {
         PushToDB p= new PushToDB();
-        p.connect();
+        //p.connect();
         p.pushFirstApi();
     }
 }
