@@ -83,7 +83,7 @@ public class PushToDB {
     }
     public void pushFirstApi() throws Exception {
         try {
-            for (KeyValuePair keyValuePair : TablesRequest.FirstApi()) {
+            for (KeyValuePair keyValuePair : TablesRequest.firstApi()) {
                 String[] keys = keyValuePair.getKey();
                 int count = Integer.parseInt(keyValuePair.getValue());
                 String municipalityCode = keys[0];
@@ -117,7 +117,8 @@ public class PushToDB {
                     Record record = countResult.next();
                     long personCount = record.get("personCount").asLong();
                     System.out.println(personCount);
-                    if (personCount==0) {
+                    if (personCount < count) {
+                        count= count-(int) personCount;
                         for (int i = 0; i < count; i++) {
                             session.run(
                                     "MATCH (m:Municipality {code: $code}) " +
@@ -193,7 +194,8 @@ public class PushToDB {
                 long personCount = record.get("personCount").asLong();
                 System.out.println(personCount);
 
-                if (personCount == 0) {
+                if (personCount < count) {
+                    count= count-(int) personCount;
                     for (int i = 0; i < count; i++) {
                         session.run(
                                 "MATCH (m:Municipality {code: $code}) " +
@@ -220,7 +222,52 @@ public class PushToDB {
         }
     }
 
+    public void pushThirdApi() throws Exception {
+        for (KeyValuePair keyValuePair : TablesRequest.thirdApi()) {
+            String[] keys = keyValuePair.getKey();
+            int count = Integer.parseInt(keyValuePair.getValue());
+            String municipalityCode = keys[0];
+            String dwellingType = keys[1];
+            String year = keys[2];
+            try {
+                session.run("MERGE (d:Dwelling_Type {name: $type})",
+                        parameters("type", dwellingType));
 
+                session.run("MERGE (y:Year {value: $year})",
+                        parameters("year", year));
+
+                Result countResult = session.run("MATCH (d:Dwelling)-[:HAS_DWELLING_TYPE]->(n:Dwelling_Type {name: $type})," +
+                                "(d)-[:LOCATED_IN]->(m:Municipality {code:$code})," +
+                                "(d)-[:PARTICIPATED_IN]->(y:Year{value:$year}) RETURN COUNT(DISTINCT d) AS dwellingCount",
+                        parameters("code", municipalityCode, "type", dwellingType, "year", year));
+                if (countResult.hasNext() && count!=0) {
+                    Record record = countResult.next();
+                    long personCount = record.get("dwellingCount").asLong();
+                    System.out.println(personCount);
+                    if (personCount < count) {
+                        count= count-(int) personCount;
+                        for (int i = 0; i < count; i++) {
+                            session.run(
+                                    "MATCH (m:Municipality {code: $code}) " +
+                                            "WITH m " +
+                                            "CREATE (d:Dwelling)-[:LOCATED_IN]->(m) " +
+                                            "WITH d " +
+                                            "MATCH (n:Dwelling_Type {name: $type}) " +
+                                            "MERGE (d)-[:HAS_DWELLING_TYPE]->(n) " +
+                                            "WITH d " +
+                                            "MATCH (y:Year {value: $year}) " +
+                                            "MERGE (d)-[:PARTICIPATED_IN]->(y)",
+                                    parameters("code", municipalityCode,
+                                            "type", dwellingType,
+                                            "year", year));
+                        }
+                    }
+                }
+            }catch(Exception e) {
+                throw new Exception(e);
+            }
+        }
+    }
     public void disconnect() throws Exception {
         try {
             // Close the session and driver
@@ -233,9 +280,9 @@ public class PushToDB {
 
     public static void main(String[] args) throws Exception {
         PushToDB p = new PushToDB();
-        //p.connect();
-        //p.pushCounties();
-        p.pushSecondApi();
+        p.connect();
+        p.pushCounties();
+        p.pushThirdApi();
         //TablesRequest.FirstApi();
 // Create threads for each method
         /*Thread pushCountiesThread = new Thread(() -> {

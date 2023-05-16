@@ -8,18 +8,19 @@ import java.util.*;
 
 public class TablesRequest {
 
-    private static List<KeyValuePair> apiRequest(int startYear, int endYear) throws MalformedURLException {
-        ApiRequest test = new ApiRequest(ApiQueries.api3Url);
+    private static List<KeyValuePair> apiRequest(int startYear, int endYear, String apiUrl) throws MalformedURLException {
+        ApiRequest test = new ApiRequest(apiUrl);
         List<KeyValuePair> allKeyValuePairs = new ArrayList<>();
 
 // Define the range of years you want to retrieve data for
-        for (int year = startYear; year <= endYear; year++) {
+        for (int year = startYear; year <= endYear; year = getNextYear(year, apiUrl)) {
             // Make the API request for the current year
-            JSONObject results = test.fetchApiData(ApiQueries.getThirdApi(2020));
+            String apiQuery = getApiQuery(year, apiUrl);
+            JSONObject results = test.fetchApiData(apiQuery);
 
             // Extract the data from the API response
             JSONArray jsonArray = new JSONArray(results.get("data").toString());
-            Dataset dataset = new Dataset(ApiQueries.api3Url, ApiQueries.getThirdApi(2020));
+            Dataset dataset = new Dataset(apiUrl, apiQuery);
             List<KeyValuePair> keyValuePairs = dataset.getData();
 
             // Print the retrieved data for the current year
@@ -34,8 +35,35 @@ public class TablesRequest {
         }
         return allKeyValuePairs;
     }
-    public static List<KeyValuePair> FirstApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2021);
+    private static int getNextYear(int currentYear, String apiUrl) {
+        if (apiUrl.equals(ApiQueries.api1Url)) {
+            // Year after year
+            return currentYear + 1;
+        } else if (apiUrl.equals(ApiQueries.api3Url)) {
+            // 5-year intervals
+            return currentYear + 5;
+        } else {
+            // Default to year after year
+            return currentYear + 1;
+        }
+    }
+    private static String getApiQuery(int year, String apiUrl) {
+        String apiQuery;
+
+        if (apiUrl.equals(ApiQueries.api1Url)) {
+            apiQuery = ApiQueries.getApi1QueryFirst(year);
+        } else if (apiUrl.equals(ApiQueries.api2Url)) {
+            apiQuery = ApiQueries.getSecondApi(year);
+        } else if (apiUrl.equals(ApiQueries.api3Url)) {
+            apiQuery = ApiQueries.getThirdApi(year);
+        } else {
+            // Handle the case for unknown API URL
+            apiQuery = "";
+        }
+        return apiQuery;
+    }
+    public static List<KeyValuePair> firstApi() throws MalformedURLException {
+        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2021, ApiQueries.api1Url);
 // Process the overall list of key-value pairs after all years have been processed
         Map<String, String> key1ReplacementMap = new HashMap<>();
         key1ReplacementMap.put("1", "men");
@@ -92,7 +120,7 @@ public class TablesRequest {
         return updatedKeyValuePairList;
     }
     public static List<KeyValuePair> secondApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2021, 2021);
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2021, 2021, ApiQueries.api2Url);
         Map<String, String> keyReplacementMap = new HashMap<>();
         keyReplacementMap.put("1", "men");
         keyReplacementMap.put("2", "woman");
@@ -133,9 +161,33 @@ public class TablesRequest {
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> ThirdApi() throws MalformedURLException{
-        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2020);
-        return null;
+    public static List<KeyValuePair> thirdApi() throws MalformedURLException{
+        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2020, ApiQueries.api3Url);
+        Map<String, String> key1ReplacementMap = new HashMap<>();
+        key1ReplacementMap.put("0045", "one- or two dwelling buildings");
+        key1ReplacementMap.put("0055", "multi-dwelling buildings and commercial buildings");
+        key1ReplacementMap.put("0065", "other");
+        List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
+        for (KeyValuePair keyValuePair : allKeyValuePairs) {
+            String[] key = keyValuePair.getKey();
+            String value = keyValuePair.getValue();
+            String updatedKey = key[1];
+            if (key1ReplacementMap.containsKey(updatedKey)) {
+                updatedKey = key1ReplacementMap.get(updatedKey);
+            }
+            if (!updatedKey.equals("007")) {
+                KeyValuePair updatedKeyValuePair = new KeyValuePair(
+                        new String[]{key[0], updatedKey, key[2]},
+                        value
+                );
+                updatedKeyValuePairList.add(updatedKeyValuePair);
+            }
+        }
+        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
+            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
+            System.out.println("Value: " + keyValuePair.getValue());
+        }
+        return updatedKeyValuePairList;
     }
 
 }
