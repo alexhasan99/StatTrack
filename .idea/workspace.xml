@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<Updated></Updated>
     <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/ApiQueries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/ApiQueries.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/ApiRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/Dataset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/Dataset.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/TablesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/TablesRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/TablesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/TablesRequest.java" afterDir="false" />
     </list>
-=======
-    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="pom och module-info.java filen är ändrade här" />
->>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,7 +84,7 @@
       <module name="StatTrack" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="stattrack.stattrack.*" />
+          <option name="PATTERN" value="stattrack.stattrack.APIRequest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -96,7 +97,7 @@
       <module name="StatTrack" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="stattrack.stattrack.*" />
+          <option name="PATTERN" value="stattrack.stattrack.APIRequest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -135,7 +136,7 @@
       <module name="statTrack" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="stattrack.stattrack.*" />
+          <option name="PATTERN" value="stattrack.stattrack.APIRequest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -189,6 +190,12 @@
       <workItem from="1683813842619" duration="308000" />
       <workItem from="1683834514636" duration="8849000" />
       <workItem from="1683898448569" duration="7680000" />
+      <workItem from="1684065273137" duration="24959000" />
+      <workItem from="1684140488019" duration="4247000" />
+      <workItem from="1684147707317" duration="3376000" />
+      <workItem from="1684154112400" duration="11619000" />
+      <workItem from="1684174124740" duration="4439000" />
+      <workItem from="1684238224687" duration="3399000" />
     </task>
     <servers />
   </component>

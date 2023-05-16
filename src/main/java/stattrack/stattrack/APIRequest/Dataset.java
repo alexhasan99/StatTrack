@@ -1,7 +1,8 @@
-package stattrack.stattrack;
+package stattrack.stattrack.APIRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import stattrack.stattrack.KeyValuePair;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Dataset {
 
     public List<KeyValuePair> getData() {
         JSONObject results = apiRequest.fetchApiData(jsonQuery);
-        System.out.println(results.get("data"));
+        //System.out.println(results.get("data"));
         JSONArray jsonArray = new JSONArray(results.get("data").toString());
         ArrayList<KeyValuePair> keyValuePairs = new ArrayList<>();
 

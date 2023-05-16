@@ -1,10 +1,12 @@
 package stattrack.stattrack;
 
+import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
+import stattrack.stattrack.APIRequest.TablesRequest;
 
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.Map;
 
 import static org.neo4j.driver.Values.parameters;
 
@@ -52,17 +54,9 @@ public class PushToDB {
                 String countyCode = countyEntry.getKey();
                 String countyName = countyEntry.getValue();
 
-                // Check if county node already exists
-                Result result = session.run("MATCH (c:County {code: $code}) RETURN c", parameters("code", countyCode));
-                if (result.hasNext()) {
-                    // County node exists, update its name
-                    session.run("MATCH (c:County {code: $code}) SET c.name = $name",
-                            parameters("code", countyCode, "name", countyName));
-                } else {
-                    // County node does not exist, create it
-                    session.run("CREATE (c:County {code: $code, name: $name})",
-                            parameters("code", countyCode, "name", countyName));
-                }
+                // Merge or create County node
+                session.run("MERGE (c:County {code: $code}) ON CREATE SET c.name = $name ON MATCH SET c.name = $name",
+                        parameters("code", countyCode, "name", countyName));
 
                 for (Map.Entry<String, String> municipalityEntry : municipalityCodeLookup.getMunicipalityMap().entrySet()) {
                     String municipalityCode = municipalityEntry.getKey();
@@ -70,53 +64,211 @@ public class PushToDB {
 
                     // Filter municipalities based on the county code
                     if (municipalityCode.startsWith(countyCode)) {
-                        // Check if municipality node already exists
-                        Result municipalityResult = session.run("MATCH (m:Municipality {code: $code}) RETURN m", parameters("code", municipalityCode));
-                        if (!municipalityResult.hasNext()) {
-                            // Municipality node does not exist, create it
-                            session.run("CREATE (m:Municipality {code: $code, name: $name})", parameters("code", municipalityCode, "name", municipalityName));
-                        }
+                        // Merge or create Municipality node
+                        session.run("MERGE (m:Municipality {code: $code}) ON CREATE SET m.name = $name ON MATCH SET m.name = $name",
+                                parameters("code", municipalityCode, "name", municipalityName));
 
-                        // Create relationship between county and municipality
-                        // Check if the relationship already exists
-                        Result relationshipResult = session.run("MATCH (c:County {code: $countyCode})-[:HAS]->(m:Municipality {code: $municipalityCode}) RETURN c, m",
+                        // Create relationship between County and Municipality
+                        session.run("MATCH (c:County {code: $countyCode}) " +
+                                        "MATCH (m:Municipality {code: $municipalityCode}) " +
+                                        "MERGE (c)-[:HAS]->(m)",
                                 parameters("countyCode", countyCode, "municipalityCode", municipalityCode));
-                        if (!relationshipResult.hasNext()) {
-                            // Create relationship between county and municipality
-                            session.run("MATCH (m:Municipality {code: $municipalityCode}) " +
-                                            "WITH m " +
-                                            "MATCH (c:County {code: $countyCode}) " +
-                                            "CREATE (c)-[:HAS]->(m)",
-                                    parameters("municipalityCode", municipalityCode, "countyCode", countyCode));
-                        }
                     }
                 }
             }
 
         }catch (Exception e){
             throw new Exception(e);
-        }finally {
+        }
+    }
+    public void pushFirstApi() throws Exception {
+        try {
+            for (KeyValuePair keyValuePair : TablesRequest.FirstApi()) {
+                String[] keys = keyValuePair.getKey();
+                int count = Integer.parseInt(keyValuePair.getValue());
+                String municipalityCode = keys[0];
+                String gender = keys[1];
+                String educationType = keys[2];
+                String placeOfSchool = keys[3];
+                String year = keys[4];
+                session.run("MERGE (g:Gender {name: $gender})",
+                        parameters("gender", gender));
+
+                // Create or update the EducationType node
+                session.run("MERGE (e:Education_Type {name: $educationType})",
+                        parameters("educationType", educationType));
+
+                // Create or update the PlaceOfSchool node
+                session.run("MERGE (p:PlaceOfSchool {name: $placeOfSchool})",
+                        parameters("placeOfSchool", placeOfSchool));
+
+                // Create or update the Year node
+                session.run("MERGE (y:Year {value: $year})",
+                        parameters("year", year));
+
+                Result countResult = session.run("MATCH (p:Person)-[:HAS_EDUCATION_TYPE]->(n:Education_Type {name: $type})," +
+                                "(p)-[:LIVES_IN]->(m:Municipality {code:$code})," +
+                                "(p)-[:HAS_GENDER]->(g:Gender {name:$gender})," +
+                                "(p)-[:ATTENDED_SCHOOL_AT]->(a:PlaceOfSchool {name:$place})," +
+                                "(p)-[:PARTICIPATED_IN]->(y:Year{value:$year}) RETURN COUNT(DISTINCT p) AS personCount",
+                        parameters("code", municipalityCode, "gender", gender,
+                                "type", educationType, "place", placeOfSchool, "year", year));
+                if (countResult.hasNext() && count!=0) {
+                    Record record = countResult.next();
+                    long personCount = record.get("personCount").asLong();
+                    System.out.println(personCount);
+                    if (personCount==0) {
+                        for (int i = 0; i < count; i++) {
+                            session.run(
+                                    "MATCH (m:Municipality {code: $code}) " +
+                                            "WITH m " +
+                                            "CREATE (p:Person)-[:LIVES_IN]->(m) " +
+                                            "WITH p " +
+                                            "MATCH (g:Gender {name: $gender}) " +
+                                            "MERGE (p)-[:HAS_GENDER]->(g) " +
+                                            "WITH p " +
+                                            "MATCH (e:Education_Type {name: $educationType}) " +
+                                            "MERGE (p)-[:HAS_EDUCATION_TYPE]->(e) " +
+                                            "WITH p " +
+                                            "MATCH (pos:PlaceOfSchool {name: $placeOfSchool}) " +
+                                            "MERGE (p)-[:ATTENDED_SCHOOL_AT]->(pos) " +
+                                            "WITH p " +
+                                            "MATCH (y:Year {value: $year}) " +
+                                            "MERGE (p)-[:PARTICIPATED_IN]->(y)",
+                                    parameters("code", municipalityCode,
+                                            "gender", gender,
+                                            "educationType", educationType,
+                                            "placeOfSchool", placeOfSchool,
+                                            "year", year));
+
+                        }
+                    }
+                }
+            }
+        }catch(Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    public void pushSecondApi() throws MalformedURLException {
+        for (KeyValuePair keyValuePair : TablesRequest.secondApi()) {
+            String[] keys = keyValuePair.getKey();
+            int count = Integer.parseInt(keyValuePair.getValue());
+            String municipalityCode = keys[0];
+            String gender = keys[1];
+            String age = keys[2];
+            String educationLevel = keys[3];
+            String year = keys[4];
+
+            session.run("MERGE (g:Gender {name: $gender})",
+                    parameters("gender", gender));
+
+            // Create or update the EducationType node
+            session.run("MERGE (e:Education_Level {name: $educationType})",
+                    parameters("educationType", educationLevel));
+
+            // Create or update the Year node
+            session.run("MERGE (y:Year {value: $year})",
+                    parameters("year", year));
+
+            boolean isAgeRange = age.matches("^\\d{2}-\\d{2}$");
+
+            String ageNodeLabel = isAgeRange ? "Age_Range" : "Age";
+            String ageRelationship = isAgeRange ? "HAS_AGE_RANGE" : "HAS_AGE";
+
+            session.run("MERGE (a:" + ageNodeLabel + " {name: $age})", parameters("age", age));
+
+            Result countResult = session.run(
+                    "MATCH (p:Person)-[:HAS_EDUCATION_LEVEL]->(n:Education_Level {name: $level})" +
+                            "MATCH (p)-[:LIVES_IN]->(m:Municipality {code:$code})" +
+                            "MATCH (p)-[:HAS_GENDER]->(g:Gender {name:$gender})" +
+                            "MATCH (p)-[:" + ageRelationship + "]->(a:" + ageNodeLabel + " {name: $age})" +
+                            "MATCH (p)-[:PARTICIPATED_IN]->(y:Year {value:$year})" +
+                            "RETURN COUNT(DISTINCT p) AS personCount",
+                    parameters("code", municipalityCode, "gender", gender, "level", educationLevel, "age", age, "year", year)
+            );
+
+            if (countResult.hasNext() && count != 0) {
+                Record record = countResult.next();
+                long personCount = record.get("personCount").asLong();
+                System.out.println(personCount);
+
+                if (personCount == 0) {
+                    for (int i = 0; i < count; i++) {
+                        session.run(
+                                "MATCH (m:Municipality {code: $code}) " +
+                                        "WITH m " +
+                                        "CREATE (p:Person)-[:LIVES_IN]->(m) " +
+                                        "WITH p " +
+                                        "MATCH (g:Gender {name: $gender}) " +
+                                        "MERGE (p)-[:HAS_GENDER]->(g) " +
+                                        "WITH p " +
+                                        "MATCH (e:Education_Level {name: $educationLevel}) " +
+                                        "MERGE (p)-[:HAS_EDUCATION_LEVEL]->(e) " +
+                                        "WITH p " +
+                                        "MATCH (a:" + ageNodeLabel + " {name: $age}) " +
+                                        "MERGE (p)-[:" + ageRelationship + "]->(a) " +
+                                        "WITH p " +
+                                        "MATCH (y:Year {value: $year}) " +
+                                        "MERGE (p)-[:PARTICIPATED_IN]->(y)",
+                                parameters("code", municipalityCode, "gender", gender, "educationLevel", educationLevel,
+                                        "age", age, "year", year)
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void disconnect() throws Exception {
+        try {
             // Close the session and driver
             session.close();
             driver.close();
+        } catch (Exception e) {
+            throw new Exception(e);
         }
-    }
-    public void pushFirstApi() throws MalformedURLException {
-        /*for (KeyValuePair keyValuePair : TablesRequest.FirstApi()) {
-            String[] keys = keyValuePair.getKey();
-
-            for (String keyElement : keys) {
-                int keyElementValue = Integer.parseInt(keyElement);
-                // Perform operations with the key element
-                System.out.println("Key Element: " + keyElementValue);
-            }
-        }*/
-        TablesRequest.FirstApi();
     }
 
     public static void main(String[] args) throws Exception {
-        PushToDB p= new PushToDB();
+        PushToDB p = new PushToDB();
         //p.connect();
-        p.pushFirstApi();
+        //p.pushCounties();
+        p.pushSecondApi();
+        //TablesRequest.FirstApi();
+// Create threads for each method
+        /*Thread pushCountiesThread = new Thread(() -> {
+            try {
+                p.pushCounties();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread pushFirstApiThread = new Thread(() -> {
+            try {
+                p.pushFirstApi();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+// Start the threads
+        pushCountiesThread.start();
+        pushFirstApiThread.start();
+
+// Wait for the threads to finish
+        try {
+            pushCountiesThread.join();
+            pushFirstApiThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
+// Disconnect from the database
+        p.disconnect();
+
     }
 }
+
