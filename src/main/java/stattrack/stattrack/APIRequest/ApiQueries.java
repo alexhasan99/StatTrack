@@ -3,6 +3,8 @@ package stattrack.stattrack.APIRequest;
 public class ApiQueries {
     public static final String api1Url= "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeSK";
     public static final String api2Url= "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeK";
+    public static final String api3Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/MI/MI0810/MI0810B/BefTatortTypBostReg";
+
     public static String getApi1QueryFirst(int year){
         String addYear= "          \"" + year + "\",\n";
         String api1QueryFirst = "{\n" +
@@ -149,4 +151,33 @@ public class ApiQueries {
         return apiQuery;
     }
 
+    public static String getThirdApi(int year){
+        String addYear= "          \"" + year + "\",\n";
+        String apiQuery= "{\n" +
+                "  \"query\": [\n" +
+                "    {\n" +
+                "      \"code\": \"Region\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"vs:RegionKommun07EjAggr\",\n" +
+                "        \"values\": [\n" +
+                "          \"0114\"\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"code\": \"Tid\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n"
+                + addYear +
+                "        ]\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"response\": {\n" +
+                "    \"format\": \"JSON\"\n" +
+                "  }\n" +
+                "}";
+    return apiQuery;
+    }
 }

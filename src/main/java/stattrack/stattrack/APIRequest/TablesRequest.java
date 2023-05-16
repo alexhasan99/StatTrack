@@ -9,17 +9,17 @@ import java.util.*;
 public class TablesRequest {
 
     private static List<KeyValuePair> apiRequest(int startYear, int endYear) throws MalformedURLException {
-        ApiRequest test = new ApiRequest(ApiQueries.api2Url);
+        ApiRequest test = new ApiRequest(ApiQueries.api3Url);
         List<KeyValuePair> allKeyValuePairs = new ArrayList<>();
 
 // Define the range of years you want to retrieve data for
         for (int year = startYear; year <= endYear; year++) {
             // Make the API request for the current year
-            JSONObject results = test.fetchApiData(ApiQueries.getSecondApi(year));
+            JSONObject results = test.fetchApiData(ApiQueries.getThirdApi(2020));
 
             // Extract the data from the API response
             JSONArray jsonArray = new JSONArray(results.get("data").toString());
-            Dataset dataset = new Dataset(ApiQueries.api2Url, ApiQueries.getSecondApi(year));
+            Dataset dataset = new Dataset(ApiQueries.api3Url, ApiQueries.getThirdApi(2020));
             List<KeyValuePair> keyValuePairs = dataset.getData();
 
             // Print the retrieved data for the current year
@@ -131,6 +131,11 @@ public class TablesRequest {
             System.out.println("Value: " + keyValuePair.getValue());
         }
         return updatedKeyValuePairList;
+    }
+
+    public static List<KeyValuePair> ThirdApi() throws MalformedURLException{
+        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2020);
+        return null;
     }
 
 }
