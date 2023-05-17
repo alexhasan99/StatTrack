@@ -14,8 +14,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"vs:RegionKommun07\",\n" +
                 "        \"values\": [\n" +
-                "          \"0180\",\n" +
-                "          \"0380\",\n" +
+                "          \"0114\",\n" +
                 "        ]\n" +
                 "      }\n" +
                 "    },\n" +

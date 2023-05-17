@@ -36,10 +36,7 @@ public class TablesRequest {
         return allKeyValuePairs;
     }
     private static int getNextYear(int currentYear, String apiUrl) {
-        if (apiUrl.equals(ApiQueries.api1Url)) {
-            // Year after year
-            return currentYear + 1;
-        } else if (apiUrl.equals(ApiQueries.api3Url)) {
+        if (apiUrl.equals(ApiQueries.api3Url)) {
             // 5-year intervals
             return currentYear + 5;
         } else {

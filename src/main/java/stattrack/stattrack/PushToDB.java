@@ -242,10 +242,10 @@ public class PushToDB {
                         parameters("code", municipalityCode, "type", dwellingType, "year", year));
                 if (countResult.hasNext() && count!=0) {
                     Record record = countResult.next();
-                    long personCount = record.get("dwellingCount").asLong();
-                    System.out.println(personCount);
-                    if (personCount < count) {
-                        count= count-(int) personCount;
+                    long dwellingCount = record.get("dwellingCount").asLong();
+                    System.out.println(dwellingCount);
+                    if (dwellingCount < count) {
+                        count= count-(int) dwellingCount;
                         for (int i = 0; i < count; i++) {
                             session.run(
                                     "MATCH (m:Municipality {code: $code}) " +
@@ -282,6 +282,8 @@ public class PushToDB {
         PushToDB p = new PushToDB();
         p.connect();
         p.pushCounties();
+        p.pushFirstApi();
+        p.pushSecondApi();
         p.pushThirdApi();
         //TablesRequest.FirstApi();
 // Create threads for each method
