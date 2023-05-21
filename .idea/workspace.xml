@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/ApiQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/ApiQueries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/TablesRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/APIRequest/TablesRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/stattrack/stattrack/PushToDB.java" afterDir="false" />
-    </list>
+    <list default="true" id="cea25ab0-4775-4241-a48a-d95a868a62dd" name="Changes" comment="" />
     <list id="4eb82c73-b28e-4d58-b076-28ecf1a784e1" name="Changes by Hiwa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,6 +190,7 @@
       <workItem from="1684238224687" duration="4692000" />
       <workItem from="1684266492646" duration="9658000" />
       <workItem from="1684314252741" duration="3303000" />
+      <workItem from="1684693185165" duration="9000" />
     </task>
     <servers />
   </component>
