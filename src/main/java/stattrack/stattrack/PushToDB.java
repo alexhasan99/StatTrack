@@ -268,6 +268,95 @@ public class PushToDB {
             }
         }
     }
+
+    public void pushFourthApi() throws Exception {
+        for (KeyValuePair keyValuePair : TablesRequest.forthApi()) {
+            String[] keys = keyValuePair.getKey();
+            int value = Integer.parseInt(keyValuePair.getValue());
+            String municipalityCode = keys[0];
+            String landUse = keys[1];
+            String year = keys[2];
+            try {
+                session.run("MERGE (y:Year {value: $year})",
+                        parameters("year", year));
+
+                session.run("MERGE (m:Municipality {code: $municipalityCode}) " +
+                        "MERGE (y:Year {value: $year}) " +
+                        "MERGE (m)-[:OCCURRED_IN]->(y) " +
+                        "WITH m, y " +
+                        "MERGE (m)-[:HAS_LAND_USE]->(l:LandUse {name: $landUse}) " +
+                        "SET l.value = $value " +
+                        "MERGE (l)-[:OCCURRED_IN]->(y)", parameters("municipalityCode", municipalityCode,
+                        "landUse", landUse,
+                        "year", year,
+                        "value", value));
+
+            }catch(Exception e) {
+                throw new Exception(e);
+            }
+        }
+    }
+
+    public void pushFifthApi() throws Exception{
+        for (KeyValuePair keyValuePair: TablesRequest.fifthApi()) {
+            if (keyValuePair.getValue().equals("..")) {
+                continue;
+            }
+            String[] keys = keyValuePair.getKey();
+            double count = Double.parseDouble(keyValuePair.getValue());
+            String municipalityCode = keys[0];
+            String  housingType= keys[1];
+            String dwellingSize = keys[2];
+            String year = keys[3];
+            try {
+                session.run("MERGE (y:Year {value: $year})",
+                        parameters("year", year));
+
+                session.run("MERGE (d:Dwelling_Housing_Type {name: $type})",
+                        parameters("type", housingType));
+
+                session.run("MERGE (d:Dwelling_Housing_Size {name: $size})",
+                        parameters("size", dwellingSize));
+
+                Result countResult = session.run("MATCH (d:Dwelling)-[:HAS_HOUSING_TYPE]->(n:Dwelling_Housing_Type {name: $type})," +
+                                "(d)-[:HAS_DWELLING_SIZE]->(s:Dwelling_Housing_Size {name: $size}),"+
+                                "(d)-[:LOCATED_IN]->(m:Municipality {code:$code})," +
+                                "(d)-[:PARTICIPATED_IN]->(y:Year{value:$year}) RETURN COUNT(DISTINCT d) AS dwellingCount",
+                        parameters("code", municipalityCode, "type", housingType,"size", dwellingSize, "year", year));
+                if (countResult.hasNext() && count!=0) {
+                    Record record = countResult.next();
+                    long dwellingCount = record.get("dwellingCount").asLong();
+                    System.out.println(dwellingCount);
+                    if (dwellingCount < count) {
+                        count= count-(int) dwellingCount;
+                        for (int i = 0; i < count; i++) {
+                            session.run(
+                                    "MATCH (m:Municipality {code: $code}) " +
+                                            "WITH m " +
+                                            "CREATE (d:Dwelling)-[:LOCATED_IN]->(m) " +
+                                            "WITH d " +
+                                            "MATCH (n:Dwelling_Housing_Type {name: $type}) " +
+                                            "MERGE (d)-[:HAS_HOUSING_TYPE]->(n) " +
+                                            "WITH d " +
+                                            "MATCH (s:Dwelling_Housing_Size {name: $size}) " +
+                                            "MERGE (d)-[:HAS_DWELLING_SIZE]->(s) " +
+                                            "WITH d " +
+                                            "MATCH (y:Year {value: $year}) " +
+                                            "MERGE (d)-[:PARTICIPATED_IN]->(y)",
+                                    parameters("code", municipalityCode,
+                                            "type", housingType,
+                                            "size", dwellingSize,
+                                            "year", year));
+
+                        }
+                    }
+                }
+
+            }catch (Exception e){
+                throw new Exception(e);
+            }
+        }
+    }
     public void disconnect() throws Exception {
         try {
             // Close the session and driver
@@ -282,7 +371,8 @@ public class PushToDB {
         PushToDB p = new PushToDB();
         p.connect();
         p.pushCounties();
-        p.pushFirstApi();
+        p.pushFifthApi();
+        /*p.pushFirstApi();
         p.pushSecondApi();
         p.pushThirdApi();
         //TablesRequest.FirstApi();

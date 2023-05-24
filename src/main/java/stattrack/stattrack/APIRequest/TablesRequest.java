@@ -1,4 +1,5 @@
 package stattrack.stattrack.APIRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import stattrack.stattrack.KeyValuePair;
@@ -35,32 +36,40 @@ public class TablesRequest {
         }
         return allKeyValuePairs;
     }
+
     private static int getNextYear(int currentYear, String apiUrl) {
         if (apiUrl.equals(ApiQueries.api3Url)) {
             // 5-year intervals
+            return currentYear + 5;
+        } else if (apiUrl.equals(ApiQueries.api4Url)) {
             return currentYear + 5;
         } else {
             // Default to year after year
             return currentYear + 1;
         }
-    }
-    private static String getApiQuery(int year, String apiUrl) {
-        String apiQuery;
 
-        if (apiUrl.equals(ApiQueries.api1Url)) {
-            apiQuery = ApiQueries.getApi1QueryFirst(year);
-        } else if (apiUrl.equals(ApiQueries.api2Url)) {
-            apiQuery = ApiQueries.getSecondApi(year);
-        } else if (apiUrl.equals(ApiQueries.api3Url)) {
-            apiQuery = ApiQueries.getThirdApi(year);
-        } else {
-            // Handle the case for unknown API URL
-            apiQuery = "";
-        }
+    }
+
+    private static String getApiQuery(int year, String apiUrl) {
+        String apiQuery = switch (apiUrl) {
+            case ApiQueries.api1Url -> ApiQueries.getApi1QueryFirst(year);
+            case ApiQueries.api2Url -> ApiQueries.getSecondApi(year);
+            case ApiQueries.api3Url -> ApiQueries.getThirdApi(year);
+            case ApiQueries.api4Url -> ApiQueries.getFourthApi();
+            case ApiQueries.api5Url -> ApiQueries.getFifthFirstApi(year);
+            case ApiQueries.api5_2Url -> ApiQueries.getFifthSecondApi(year);
+            case ApiQueries.api7Url -> ApiQueries.getSeventhApi(year);
+            default ->
+                // Handle the case for unknown API URL
+                    "";
+        };
+
         return apiQuery;
     }
+
+
     public static List<KeyValuePair> firstApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2021, ApiQueries.api1Url);
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2020, 2021, ApiQueries.api1Url);
 // Process the overall list of key-value pairs after all years have been processed
         Map<String, String> key1ReplacementMap = new HashMap<>();
         key1ReplacementMap.put("1", "men");
@@ -86,7 +95,7 @@ public class TablesRequest {
         for (KeyValuePair keyValuePair : allKeyValuePairs) {
             String[] key = keyValuePair.getKey();
             String value = keyValuePair.getValue();
-            String updatedKey1= key[1];
+            String updatedKey1 = key[1];
             String updatedKey2 = key[2];
             String updatedKey3 = key[3];  // Assuming the key is at index 3 in the key array
 
@@ -94,11 +103,11 @@ public class TablesRequest {
             if (key3ReplacementMap.containsKey(updatedKey3)) {
                 updatedKey3 = key3ReplacementMap.get(updatedKey3);
             }
-            if(key2ReplacementMap.containsKey(updatedKey2)){
-                updatedKey2= key2ReplacementMap.get(updatedKey2);
+            if (key2ReplacementMap.containsKey(updatedKey2)) {
+                updatedKey2 = key2ReplacementMap.get(updatedKey2);
             }
-            if(key1ReplacementMap.containsKey(updatedKey1)){
-                updatedKey1= key1ReplacementMap.get(updatedKey1);
+            if (key1ReplacementMap.containsKey(updatedKey1)) {
+                updatedKey1 = key1ReplacementMap.get(updatedKey1);
             }
             // Create a new KeyValuePair with the updated key and original value
             KeyValuePair updatedKeyValuePair = new KeyValuePair(
@@ -116,6 +125,7 @@ public class TablesRequest {
         }
         return updatedKeyValuePairList;
     }
+
     public static List<KeyValuePair> secondApi() throws MalformedURLException {
         List<KeyValuePair> allKeyValuePairs = apiRequest(2021, 2021, ApiQueries.api2Url);
         Map<String, String> keyReplacementMap = new HashMap<>();
@@ -125,7 +135,8 @@ public class TablesRequest {
         key3ReplacementMap.put("1", "upper secondary education");
         key3ReplacementMap.put("2", "municipal adult education");
         key3ReplacementMap.put("H", "higher education");
-        key3ReplacementMap.put("R", "other students");
+        key3ReplacementMap.put("R" +
+                "", "other students");
         key3ReplacementMap.put("0", "non-students");
 
         List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
@@ -158,8 +169,8 @@ public class TablesRequest {
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> thirdApi() throws MalformedURLException{
-        List<KeyValuePair> allKeyValuePairs= apiRequest(2020, 2020, ApiQueries.api3Url);
+    public static List<KeyValuePair> thirdApi() throws MalformedURLException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2020, 2020, ApiQueries.api3Url);
         Map<String, String> key1ReplacementMap = new HashMap<>();
         key1ReplacementMap.put("0045", "one- or two dwelling buildings");
         key1ReplacementMap.put("0055", "multi-dwelling buildings and commercial buildings");
@@ -186,5 +197,110 @@ public class TablesRequest {
         }
         return updatedKeyValuePairList;
     }
+
+    public static List<KeyValuePair> forthApi() throws MalformedURLException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2015, 2015, ApiQueries.api4Url);
+        Map<String, String> keyReplacementMap = new HashMap<>();
+        keyReplacementMap.put("OM", "Open land");
+        keyReplacementMap.put("SKOG", "Forest");
+        keyReplacementMap.put("TOTG", "Total green space");
+        keyReplacementMap.put("TOTLA", "Total land area");
+        List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
+        for (KeyValuePair keyValuePair : allKeyValuePairs) {
+            String[] key = keyValuePair.getKey();
+            String value = keyValuePair.getValue();
+            String updatedKey = key[1];
+            if (keyReplacementMap.containsKey(updatedKey)) {
+                updatedKey = keyReplacementMap.get(updatedKey);
+            }
+            KeyValuePair updatedKeyValuePair = new KeyValuePair(
+                    new String[]{key[0], updatedKey, key[2]},
+                    value);
+            updatedKeyValuePairList.add(updatedKeyValuePair);
+        }
+        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
+            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
+            System.out.println("Value: " + keyValuePair.getValue());
+        }
+        return updatedKeyValuePairList;
+    }
+
+    public static List<KeyValuePair> fifthApi()throws MalformedURLException{
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2022, 2022, ApiQueries.api5Url);
+        List<KeyValuePair> allKeyValuePairs2 = apiRequest(2021, 2022, ApiQueries.api5_2Url);
+        List<KeyValuePair> allKeyValuePairsCombined = new ArrayList<>();
+        allKeyValuePairsCombined.addAll(allKeyValuePairs);
+        //allKeyValuePairsCombined.addAll(allKeyValuePairs2);
+
+        Map<String, String> keyReplacementMap = new HashMap<>();
+        keyReplacementMap.put("FBBO", "multi-dwelling buildings, tenant-owned");
+        keyReplacementMap.put("FBHY0", "multi-dwelling buildings, rented");
+        keyReplacementMap.put("FBBOHY", "Multi-dwelling buildnings, tenant-owned and rented dwellings");
+        keyReplacementMap.put("SPBO", "special housing");
+        keyReplacementMap.put("OB", "other housing");
+
+        Map<String, String> key1ReplacementMap = new HashMap<>();
+        key1ReplacementMap.put("1R+", "dwellings without kitchen equipment");
+        key1ReplacementMap.put("1RKV+KS", "1 room and kitchenette");
+        key1ReplacementMap.put("1RK", "1 room and kitchen");
+        key1ReplacementMap.put("2RKV+KS", "2 or more rooms with kitchenette");
+        key1ReplacementMap.put("2RK", "2 rooms and kitchen");
+        key1ReplacementMap.put("3RK", "3 rooms and kitchen");
+        key1ReplacementMap.put("4RK", "4 rooms and kitchen");
+        key1ReplacementMap.put("5RK", "5 rooms and kitchen");
+        key1ReplacementMap.put("6+RK", "6 or more rooms and kitchen");
+        key1ReplacementMap.put("UPPGSAKNs", "data missing");
+
+        List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
+
+// Iterate over the original list
+        for (KeyValuePair keyValuePair : allKeyValuePairsCombined) {
+            String[] key = keyValuePair.getKey();
+            String value = keyValuePair.getValue();
+            String updatedKey1 = key[1];
+            String updatedKey2 = key[2];
+
+            if (key1ReplacementMap.containsKey(updatedKey2)) {
+                updatedKey2 = key1ReplacementMap.get(updatedKey2);
+            }
+            if (keyReplacementMap.containsKey(updatedKey1)) {
+                updatedKey1 = keyReplacementMap.get(updatedKey1);
+            }
+            // Create a new KeyValuePair with the updated key and original value
+            KeyValuePair updatedKeyValuePair = new KeyValuePair(
+                    new String[]{key[0], updatedKey1, updatedKey2, key[3]},
+                    value
+            );
+            updatedKeyValuePairList.add(updatedKeyValuePair);
+        }
+
+        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
+            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
+            System.out.println("Value: " + keyValuePair.getValue());
+        }
+        return updatedKeyValuePairList;
+    }
+
+    public static List<KeyValuePair> seventhApi() throws MalformedURLException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2020, 2021, ApiQueries.api7Url);
+        Map<String, String> keyReplacementMap = new HashMap<>();
+        keyReplacementMap.put("21", "primary and lower secondary education");
+        keyReplacementMap.put("3+4", "upper secondary education");
+        keyReplacementMap.put("8", "post secondary education");
+        keyReplacementMap.put("US", "no information about level of educational attainment");
+
+        Map<String, String> key1ReplacementMap = new HashMap<>();
+        key1ReplacementMap.put("1", "men");
+        key1ReplacementMap.put("2", "women");
+
+        Map<String, String> key2ReplacementMap = new HashMap<>();
+        key2ReplacementMap.put("21", "primary and lower secondary education");
+        key2ReplacementMap.put("3+4", "upper secondary education");
+        key2ReplacementMap.put("8", "post secondary education");
+        key2ReplacementMap.put("US", "no information about level of educational attainment");
+
+        return allKeyValuePairs;
+    }
+
 
 }
