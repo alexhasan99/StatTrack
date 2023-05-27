@@ -90,7 +90,7 @@
       </method>
     </configuration>
     <configuration name="PushToDB" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.PushToDB" />
+      <option name="MAIN_CLASS_NAME" value="stattrack.stattrack.PushAPIs.PushToDB" />
       <module name="StatTrack" />
       <extension name="coverage">
         <pattern>
