@@ -5,7 +5,6 @@ module stattrack.stattrack {
     requires json.simple;
     requires org.json;
     requires java.net.http;
-
     opens stattrack.stattrack to javafx.fxml;
     exports stattrack.stattrack;
     exports stattrack.stattrack.APIRequest;

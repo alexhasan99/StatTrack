@@ -1,17 +1,20 @@
 package stattrack.stattrack.APIRequest;
 
 public class ApiQueries {
-    public static final String api1Url= "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeSK";
-    public static final String api2Url= "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeK";
+    public static final String api1Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeSK";
+    public static final String api2Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/UF/UF0507/StudiedeltagandeK";
     public static final String api3Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/MI/MI0810/MI0810B/BefTatortTypBostReg";
     public static final String api4Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/MI/MI0805/MI0805A/GYMaTackeAllmToReg";
     public static final String api5Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0111/HE0111A/HushallT30";
     public static final String api5_2Url = " https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0111/HE0111A/HushallT30";
-    public static final String api7Url= "https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0110/HE0110A/SamForvInk1c";
+    public static final String api6_1Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0202/HE0202T02";
+    public static final String api6_2Url = " https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0202/HE0202T02";
+    public static final String api6_3Url = "  https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0202/HE0202T02";
+    public static final String api7Url = "https://api.scb.se/OV0104/v1/doris/en/ssd/START/HE/HE0110/HE0110A/SamForvInk1c";
 
 
-    public static String getApi1QueryFirst(int year){
-        String addYear= "          \"" + year + "\",\n";
+    public static String getApi1QueryFirst(int year) {
+        String addYear = "          \"" + year + "\",\n";
         String api1QueryFirst = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
@@ -62,7 +65,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                            + addYear +
+                + addYear +
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +
@@ -74,9 +77,9 @@ public class ApiQueries {
         return api1QueryFirst;
     }
 
-    public static String getSecondApi(int year){
-        String addYear= "          \"" + year + "\",\n";
-        String apiQuery= "{\n" +
+    public static String getSecondApi(int year) {
+        String addYear = "          \"" + year + "\",\n";
+        String apiQuery = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
                 "      \"code\": \"Region\",\n" +
@@ -155,9 +158,9 @@ public class ApiQueries {
         return apiQuery;
     }
 
-    public static String getThirdApi(int year){
-        String addYear= "          \"" + year + "\",\n";
-        String apiQuery= "{\n" +
+    public static String getThirdApi(int year) {
+        String addYear = "          \"" + year + "\",\n";
+        String apiQuery = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
                 "      \"code\": \"Region\",\n" +
@@ -182,11 +185,11 @@ public class ApiQueries {
                 "    \"format\": \"JSON\"\n" +
                 "  }\n" +
                 "}";
-    return apiQuery;
+        return apiQuery;
     }
 
-    public static String getFourthApi(){
-        String apiQuery= "{\n" +
+    public static String getFourthApi() {
+        String apiQuery = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
                 "      \"code\": \"Region\",\n" +
@@ -494,14 +497,10 @@ public class ApiQueries {
         return apiQuery;
     }
 
-    public static String getFifthFirstApi(int year){
-        return getFifthApi(year, "0000025T");
-    }
-
-    public static String getFifthApi(int year, String code){
-        String addYear= "          \"" + year + "\",\n";
-        String addCode= "          \""+code+"\"\n";
-        String apiQuery="{\n" +
+    public static String getFifthApi(int year, String code) {
+        String addYear = "          \"" + year + "\",\n";
+        String addCode = "          \"" + code + "\"\n";
+        String apiQuery = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
                 "      \"code\": \"Region\",\n" +
@@ -548,7 +547,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                            +addCode+
+                + addCode +
                 "        ]\n" +
                 "      }\n" +
                 "    },\n" +
@@ -556,8 +555,8 @@ public class ApiQueries {
                 "      \"code\": \"Tid\",\n" +
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
-                "        \"values\": [\n" +
-                "          \"2022\"\n" +
+                "        \"values\": [\n"
+                + addYear +
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +
@@ -570,14 +569,93 @@ public class ApiQueries {
         return apiQuery;
     }
 
+    public static String getFifthFirstApi(int year) {
+        return getFifthApi(year, "0000025T");
+    }
 
-    public static String getFifthSecondApi(int year){
+    public static String getFifthSecondApi(int year) {
         return getFifthApi(year, "0000025U");
     }
 
-    public static String getSeventhApi(int year){
-        String addYear= "          \"" + year + "\",\n";
-        String apiQuery= "{\n" +
+    public static String getSixthApi(int year, String code) {
+        String addYear = "          \"" + year + "\",\n";
+        String addCode = "          \"" + code + "\"\n";
+        String apiQuery = "{\n" +
+                "  \"query\": [\n" +
+                "    {\n" +
+                "      \"code\": \"Region\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n" +
+                "          \"0020\"\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"code\": \"Upplatelseform\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n" +
+                "          \"1\",\n" +
+                "          \"2\",\n" +
+                "          \"3\",\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"code\": \"Hushallstyp\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n" +
+                "          \"ESUB\",\n" +
+                "          \"SBUB\",\n" +
+                "          \"ESMB\",\n" +
+                "          \"SBMB\",\n" +
+                "          \"OVRIGA\"\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"code\": \"ContentsCode\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n"
+                + addCode +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"code\": \"Tid\",\n" +
+                "      \"selection\": {\n" +
+                "        \"filter\": \"item\",\n" +
+                "        \"values\": [\n"
+                + addYear +
+                "        ]\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"response\": {\n" +
+                "    \"format\": \"JSON\"\n" +
+                "  }\n" +
+                "}";
+        return apiQuery;
+    }
+
+    public static String getSixthFirstApi(int year) {
+        return getSixthApi(year, "000000XP");
+    }
+
+    public static String getSixthSecondApi(int year) {
+        return getSixthApi(year, "000000Y2");
+    }
+
+    public static String getSixthThirdApi(int year) {
+        return getSixthApi(year, "000000Y1");
+    }
+
+    public static String getSeventhApi(int year) {
+        String addYear = "          \"" + year + "\",\n";
+        String apiQuery = "{\n" +
                 "  \"query\": [\n" +
                 "    {\n" +
                 "      \"code\": \"Region\",\n" +
@@ -658,7 +736,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                            + addYear+
+                + addYear +
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +
