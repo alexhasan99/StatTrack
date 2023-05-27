@@ -9,4 +9,6 @@ module stattrack.stattrack {
     exports stattrack.stattrack;
     exports stattrack.stattrack.APIRequest;
     opens stattrack.stattrack.APIRequest to javafx.fxml;
+    exports stattrack.stattrack.PushAPIs;
+    opens stattrack.stattrack.PushAPIs to javafx.fxml;
 }
