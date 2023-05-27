@@ -1,4 +1,4 @@
-package stattrack.stattrack;
+package stattrack.stattrack.APIRequest;
 
 public class KeyValuePair {
     private String[] key;

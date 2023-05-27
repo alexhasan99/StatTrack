@@ -3,6 +3,7 @@ package stattrack.stattrack;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
+import stattrack.stattrack.APIRequest.KeyValuePair;
 import stattrack.stattrack.APIRequest.TablesRequest;
 
 import java.net.MalformedURLException;
