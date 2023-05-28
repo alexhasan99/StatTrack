@@ -1,18 +1,24 @@
 # Project: Deploying a network database through API calls
-
+This project aims to create a network database using Java/Python and Neo4j to store and connect data from SCB (Statistics Sweden). SCB provides datasets about the census and other important information about Sweden. The objective is to design an application that can read data from the SCB API and populate the Neo4j database based on a specific design. The project also includes creating a simple dashboard to demonstrate some of the datasets.
+## Introduction
 SCB, Statistics Sweden (https://www.scb.se) publishes datasets about the census and other important information about Sweden. There is a need to connect this data across other studies for cross-theme analysis.
 
-Design a network database to store data from SCB. Create a Python/Java-based application using the official API to read the data and push the same into Neo4j based on your design. The objective is to be able to track new data points and changes to the selected sources in the network database. Demonstrate a simple dashboard with some of the datasets.
+This project aims to design a network database to store data from SCB. A Python/Java-based application will be created using the official API to read the data and push it into Neo4j based on the design. The objective is to track new data points and changes to the selected sources in the network database. Additionally, a simple dashboard will be demonstrated using some of the datasets.
 
-Create an application that can take an API target and incorporate the following data sources:
+## Installation
+1. Clone the repository: `git clone https://github.com/your-username/your-repository.git`
+2. Install the required dependencies: `pip install -r requirements.txt` (for Python) or set up the Java environment accordingly.
+3. Set up a Neo4j database and configure the connection details.
+4. Obtain API keys or access credentials from SCB (Statistics Sweden) to access the required datasets.
+5. Set up the necessary environment variables or configuration files to store the API keys securely.
 
-1. [Number of students 16-64 years of age by region of the educational institution, sex, type of studies the autumn term and the location of the educational institution in relation to the municipality of residence. Year 1999 - 2020](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__UF__UF0507/StudiedeltagandeSK/)
-2. [Population 16-64 years of age by residential region, sex, age, type of studies the autumn term. Year 1993 - 2020](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__UF__UF0507/StudiedeltagandeK/)
-3. [Population in localities by type of dwelling and region. Year 2000 - 2020](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__MI__MI0810__MI0810B/BefTatortTypBostReg/)
-4. [Public green space in localities by region and land cover. Year 2015](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__MI__MI0805__MI0805A/GYMaTackeAllmToReg/)
-5. [Number of households and average number of persons per household by region, tenure and type of dwelling (excluding one- or two-dwelling buildings). Year 2012 - 2021](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__HE__HE0111__HE0111A/HushallT30/)
-6. [Housing expenditures per household and number of households by region, type of tenure and type of household. Year 2015 - 2017](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__HE__HE0202/HE0202T02/)
-7. [Total earned income for persons registered in the national population register during the whole year by region, level of educational, sex and age. Year 2000 - 2020](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__HE__HE0110__HE0110A/SamForvInk1c/)
+## Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Data Sources](#data-sources)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Data Sources
 The project includes data from various themes. Here is a list of the datasets considered for this project:
@@ -27,8 +33,22 @@ The project includes data from various themes. Here is a list of the datasets co
 | Household Finances | Housing expenditures per household and number of households by region, type of tenure, and more                 | [Link](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__HE__HE0202/HE0202T02/)              |
 | Household Finances | Total earned income for persons registered in the national population register by region, education, and more    | [Link](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/START__HE__HE0110__HE0110A/SamForvInk1c/)  |
 
+## Usage
+1. Initialize the application and establish a connection with the SCB API.
+2. Fetch the required datasets using the provided API endpoints.
+3. Transform the data into a suitable format for storage in the Neo4j database.
+4. Push the data into the Neo4j database based on the defined database schema.
+5. Implement functionality to track new data points and changes to the selected sources in the network database.
+6. Build a simple dashboard to visualize and interact with the datasets.
+7. There is a picture that have all names for Relationsships & nodes
+
 ## Contributing
 Contributions to this project are welcome. If you find any issues or have suggestions for improvements, feel free to submit a pull request or open an issue in the repository. Please adhere to the code of conduct when contributing.
 
 ## License
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code for non-commercial and commercial purposes.
+
+## Database Design
+![StatTrack (4)](https://github.com/alexhasan99/StatTrack/assets/121833434/b8126643-e7fc-48ff-aa11-7004b0fc1048)
+
+
