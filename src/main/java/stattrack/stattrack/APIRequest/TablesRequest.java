@@ -2,16 +2,19 @@ package stattrack.stattrack.APIRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import stattrack.stattrack.PushAPIs.MunicipalityCodeLookup;
 
 import java.net.MalformedURLException;
 import java.util.*;
 
+import static stattrack.stattrack.APIRequest.ApiQueries.*;
+
 public class TablesRequest {
 
-    private static List<KeyValuePair> apiRequest(int startYear, int endYear, String apiUrl) throws MalformedURLException {
+    private static List<KeyValuePair> apiRequest(int startYear, int endYear, String apiUrl) throws MalformedURLException, InterruptedException {
         ApiRequest test = new ApiRequest(apiUrl);
         List<KeyValuePair> allKeyValuePairs = new ArrayList<>();
-
+        int requestCount = 0;
 // Define the range of years you want to retrieve data for
         for (int year = startYear; year <= endYear; year = getNextYear(year, apiUrl)) {
             // Make the API request for the current year
@@ -32,6 +35,17 @@ public class TablesRequest {
             }*/
             // Add the retrieved data for the current year to the overall list
             allKeyValuePairs.addAll(keyValuePairs);
+            requestCount++;  // Increment the request count
+
+            // Check if rate limit is reached and apply the delay
+            if (requestCount >= 10) {
+                try {
+                    Thread.sleep(10000);  // Delay for 10 seconds
+                    requestCount = 0;  // Reset the request count
+                } catch (InterruptedException e) {
+                    throw new InterruptedException(e.getMessage());
+                }
+            }
         }
         return allKeyValuePairs;
     }
@@ -44,11 +58,11 @@ public class TablesRequest {
             return currentYear + 5;
         } else if (apiUrl.equals(ApiQueries.api6_1Url)) {
             return currentYear + 2;
-        }else if (apiUrl.equals(ApiQueries.api6_2Url)) {
+        } else if (apiUrl.equals(ApiQueries.api6_2Url)) {
             return currentYear + 2;
-        }else if (apiUrl.equals(ApiQueries.api6_3Url)) {
+        } else if (apiUrl.equals(ApiQueries.api6_3Url)) {
             return currentYear + 2;
-        }else {
+        } else {
             // Default to year after year
             return currentYear + 1;
         }
@@ -57,16 +71,15 @@ public class TablesRequest {
 
     private static String getApiQuery(int year, String apiUrl) {
         String apiQuery = switch (apiUrl) {
-            case ApiQueries.api1Url -> ApiQueries.getApi1QueryFirst(year);
-            case ApiQueries.api2Url -> ApiQueries.getSecondApi(year);
-            case ApiQueries.api3Url -> ApiQueries.getThirdApi(year);
-            case ApiQueries.api4Url -> ApiQueries.getFourthApi();
-            case ApiQueries.api5Url -> ApiQueries.getFifthFirstApi(year);
-            case ApiQueries.api5_2Url -> ApiQueries.getFifthSecondApi(year);
-            case ApiQueries.api6_1Url -> ApiQueries.getSixthFirstApi(year);
-            case ApiQueries.api6_2Url -> ApiQueries.getSixthSecondApi(year);
-            case ApiQueries.api6_3Url -> ApiQueries.getSixthThirdApi(year);
-            case ApiQueries.api7Url -> ApiQueries.getSeventhApi(year);
+            case ApiQueries.api1Url -> ApiQueries.getFirstApiQuery(year);
+            case ApiQueries.api2Url -> ApiQueries.getSecondApiQuery(year);
+            case ApiQueries.api3Url -> ApiQueries.getThirdApiQuery(year);
+            case ApiQueries.api4Url -> ApiQueries.getFourthApiQuery();
+            case ApiQueries.api5Url -> ApiQueries.getFifthFirstApiQuery(year);
+            case ApiQueries.api5_2Url -> ApiQueries.getFifthSecondApiQuery(year);
+            case ApiQueries.api6_1Url -> ApiQueries.getSixthFirstApiQuery(year);
+            case ApiQueries.api6_2Url -> ApiQueries.getSixthSecondApiQuery(year);
+            case ApiQueries.api6_3Url -> ApiQueries.getSixthThirdApiQuery(year);
             default ->
                 // Handle the case for unknown API URL
                     "";
@@ -76,8 +89,8 @@ public class TablesRequest {
     }
 
 
-    public static List<KeyValuePair> firstApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2020, 2021, ApiQueries.api1Url);
+    public static List<KeyValuePair> firstApi() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(1999, 2021, ApiQueries.api1Url);
 // Process the overall list of key-value pairs after all years have been processed
         Map<String, String> key1ReplacementMap = new HashMap<>();
         key1ReplacementMap.put("1", "men");
@@ -125,17 +138,12 @@ public class TablesRequest {
 
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
-
-// Print the updated key-value pairs
-        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
-            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
-            System.out.println("Value: " + keyValuePair.getValue());
-        }
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> secondApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2021, 2021, ApiQueries.api2Url);
+    public static List<KeyValuePair> secondApi() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(1993, 2021, ApiQueries.api2Url);
         Map<String, String> keyReplacementMap = new HashMap<>();
         keyReplacementMap.put("1", "men");
         keyReplacementMap.put("2", "woman");
@@ -170,15 +178,12 @@ public class TablesRequest {
             );
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
-        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
-            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
-            System.out.println("Value: " + keyValuePair.getValue());
-        }
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> thirdApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2015, 2020, ApiQueries.api3Url);
+    public static List<KeyValuePair> thirdApi() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2000, 2020, ApiQueries.api3Url);
         Map<String, String> key1ReplacementMap = new HashMap<>();
         key1ReplacementMap.put("0045", "one- or two dwelling buildings");
         key1ReplacementMap.put("0055", "multi-dwelling buildings and commercial buildings");
@@ -199,15 +204,12 @@ public class TablesRequest {
                 updatedKeyValuePairList.add(updatedKeyValuePair);
             }
         }
-        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
-            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
-            System.out.println("Value: " + keyValuePair.getValue());
-        }
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> forthApi() throws MalformedURLException {
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2010, 2015, ApiQueries.api4Url);
+    public static List<KeyValuePair> forthApi() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2015, 2015, ApiQueries.api4Url);
         Map<String, String> keyReplacementMap = new HashMap<>();
         keyReplacementMap.put("OM", "Open land");
         keyReplacementMap.put("SKOG", "Forest");
@@ -226,23 +228,21 @@ public class TablesRequest {
                     value);
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
-        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
-            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
-            System.out.println("Value: " + keyValuePair.getValue());
-        }
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 
 
-    public static List<KeyValuePair> fifth1Api()throws MalformedURLException{
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2021, 2022, ApiQueries.api5Url);
+    public static List<KeyValuePair> fifth1Api() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs = apiRequest(2012, 2022, ApiQueries.api5Url);
         return updateFifthApiKeys(allKeyValuePairs);
     }
 
-    public static List<KeyValuePair> fifth2Api()throws MalformedURLException{
-        List<KeyValuePair> allKeyValuePairs2 = apiRequest(2021, 2022, ApiQueries.api5_2Url);
+    public static List<KeyValuePair> fifth2Api() throws MalformedURLException, InterruptedException {
+        List<KeyValuePair> allKeyValuePairs2 = apiRequest(2012, 2022, ApiQueries.api5_2Url);
         return updateFifthApiKeys(allKeyValuePairs2);
     }
+
     private static List<KeyValuePair> updateFifthApiKeys(List<KeyValuePair> keyValuePairList) {
         List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
         // Key replacement mappings
@@ -286,20 +286,19 @@ public class TablesRequest {
             );
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
-
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 
-    public static List<KeyValuePair> sixth1Api() throws MalformedURLException{
-        return updateSixthApiKeys(apiRequest(2015,2017,ApiQueries.api6_1Url));
+    public static List<KeyValuePair> sixth1Api() throws MalformedURLException, InterruptedException {
+        return updateSixthApiKeys(apiRequest(2015, 2017, ApiQueries.api6_1Url));
+    }
+    public static List<KeyValuePair> sixth2Api() throws MalformedURLException, InterruptedException {
+        return updateSixthApiKeys(apiRequest(2015, 2017, ApiQueries.api6_2Url));
     }
 
-    public static List<KeyValuePair> sixth2Api() throws MalformedURLException{
-        return updateSixthApiKeys(apiRequest(2015,2017,ApiQueries.api6_2Url));
-    }
-
-    public static List<KeyValuePair> sixth3Api() throws MalformedURLException{
-        return updateSixthApiKeys(apiRequest(2015,2017,ApiQueries.api6_3Url));
+    public static List<KeyValuePair> sixth3Api() throws MalformedURLException, InterruptedException {
+        return updateSixthApiKeys(apiRequest(2015, 2017, ApiQueries.api6_3Url));
     }
 
     private static List<KeyValuePair> updateSixthApiKeys(List<KeyValuePair> keyValuePairList) {
@@ -345,18 +344,88 @@ public class TablesRequest {
             );
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
+        printLists(updatedKeyValuePairList);
+        return updatedKeyValuePairList;
+    }
+
+    private static void printLists(List<KeyValuePair> updatedKeyValuePairList){
         for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
             System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
             System.out.println("Value: " + keyValuePair.getValue());
         }
-        return updatedKeyValuePairList;
+    }
+
+    private static List<KeyValuePair> apiRequestForSeventh(int startYear, int endYear, int val) throws MalformedURLException, InterruptedException {
+        MunicipalityCodeLookup m = new MunicipalityCodeLookup();
+        ApiRequest test = new ApiRequest(api7Url);
+        List<KeyValuePair> allKeyValuePairs = new ArrayList<>();
+        int requestCount = 0;
+
+        for (int year = startYear; year <= endYear; year = getNextYear(year, api7Url)) {
+            for (Map.Entry<String, String> entry : m.getMunicipalityMap().entrySet()) {
+                String municipalityCode = entry.getKey();
+                String apiQuery = "";
+                // Make the API request for the current year and municipality
+                if (val == 1) {
+                    apiQuery = getSeventhFirstApiQuery(year, municipalityCode);
+                } else if (val == 2) {
+                    apiQuery = getSeventhSecondApiQuery(year, municipalityCode);
+                } else if (val == 3) {
+                    apiQuery = getSeventhThirdApiQuery(year, municipalityCode);
+                } else if (val == 4) {
+                    apiQuery = getSeventhFourthApiQuery(year, municipalityCode);
+                }
+
+                JSONObject results = test.fetchApiData(apiQuery);
+                // Extract the data from the API response
+                JSONArray jsonArray = new JSONArray(results.get("data").toString());
+                Dataset dataset = new Dataset(api7Url, apiQuery);
+                List<KeyValuePair> keyValuePairs = dataset.getData();
+                for (KeyValuePair keyValuePair : keyValuePairs) {
+                    String[] key = keyValuePair.getKey();
+                    String value = keyValuePair.getValue();
+                    System.out.println(Arrays.toString(key));
+                    System.out.println(value);
+                }
+                allKeyValuePairs.addAll(keyValuePairs);
+
+                requestCount++;  // Increment the request count
+
+                // Check if rate limit is reached and apply the delay
+                if (requestCount >= 10) {
+                    try {
+                        Thread.sleep(10000);  // Delay for 10 seconds
+                        requestCount = 0;  // Reset the request count
+                    } catch (InterruptedException e) {
+                        throw new InterruptedException(e.getMessage());
+                    }
+                }
+            }
+        }
+
+        return allKeyValuePairs;
     }
 
 
+    public static List<KeyValuePair> seventhFirstApi() throws MalformedURLException, InterruptedException {
+        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 1));
+    }
 
-    public static List<KeyValuePair> seventhApi() throws MalformedURLException {
+    public static List<KeyValuePair> seventhSecondApi() throws MalformedURLException, InterruptedException {
+        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 2));
+    }
+
+    public static List<KeyValuePair> seventhThirdApi() throws MalformedURLException, InterruptedException {
+        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 3));
+    }
+
+    public static List<KeyValuePair> seventhForthApi() throws MalformedURLException, InterruptedException {
+        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 4));
+    }
+
+    private static List<KeyValuePair> updateSeventhApiKeys(List<KeyValuePair> keyValuePairList) {
         List<KeyValuePair> updatedKeyValuePairList = new ArrayList<>();
-        List<KeyValuePair> allKeyValuePairs = apiRequest(2020, 2021, ApiQueries.api7Url);
+        // Key replacement mappings
         Map<String, String> keyReplacementMap = new HashMap<>();
         keyReplacementMap.put("21", "primary and lower secondary education");
         keyReplacementMap.put("3+4", "upper secondary education");
@@ -368,7 +437,7 @@ public class TablesRequest {
         key1ReplacementMap.put("2", "women");
 
 
-        for (KeyValuePair keyValuePair : allKeyValuePairs) {
+        for (KeyValuePair keyValuePair : keyValuePairList) {
             String[] key = keyValuePair.getKey();
             String value = keyValuePair.getValue();
             String updatedKey1 = key[1];
@@ -387,10 +456,7 @@ public class TablesRequest {
             );
             updatedKeyValuePairList.add(updatedKeyValuePair);
         }
-        for (KeyValuePair keyValuePair : updatedKeyValuePairList) {
-            System.out.println("Key: " + Arrays.toString(keyValuePair.getKey()));
-            System.out.println("Value: " + keyValuePair.getValue());
-        }
+        printLists(updatedKeyValuePairList);
         return updatedKeyValuePairList;
     }
 

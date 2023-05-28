@@ -12,13 +12,13 @@ public class Dataset {
     private String jsonQuery;
     private ApiRequest apiRequest;
 
-    public Dataset(String url, String jsonQuery) throws MalformedURLException {
+    protected Dataset(String url, String jsonQuery) throws MalformedURLException {
         this.url = url;
         this.jsonQuery = jsonQuery;
         apiRequest = new ApiRequest(url);
     }
 
-    public List<KeyValuePair> getData() {
+    protected List<KeyValuePair> getData() {
         JSONObject results = apiRequest.fetchApiData(jsonQuery);
         //System.out.println(results.get("data"));
         JSONArray jsonArray = new JSONArray(results.get("data").toString());

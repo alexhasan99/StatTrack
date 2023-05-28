@@ -19,7 +19,7 @@ public class PushToDB {
     // Connect to Neo4j
     String uri = "bolt://localhost:7687/";
     String user = "neo4j";
-    String password = "hamo1212";
+    String password = "test1212";
     Driver driver;
     Session session;
     CountyCodeLookup countyCodeLookup;
@@ -154,7 +154,7 @@ public class PushToDB {
         }
     }
 
-    private void pushSecondApi() throws MalformedURLException {
+    private void pushSecondApi() throws MalformedURLException, InterruptedException {
         for (KeyValuePair keyValuePair : TablesRequest.secondApi()) {
             String[] keys = keyValuePair.getKey();
             int count = Integer.parseInt(keyValuePair.getValue());
@@ -471,19 +471,69 @@ public class PushToDB {
     }
 
     private void pushSeventhApi() throws Exception {
+
+        List<KeyValuePair> meanList = new ArrayList<KeyValuePair>(TablesRequest.seventhSecondApi());
+        List<KeyValuePair> medianList = new ArrayList<KeyValuePair>(TablesRequest.seventhThirdApi());
+        List<KeyValuePair> totalIncomeList = new ArrayList<KeyValuePair>(TablesRequest.seventhForthApi());
         try {
-            for (KeyValuePair keyValuePair : TablesRequest.seventhApi()) {
+            for (KeyValuePair keyValuePair : TablesRequest.seventhFirstApi()) {
                 if (keyValuePair.getValue().equals("..")) {
                     continue;
                 }
                 String[] keys = keyValuePair.getKey();
                 int count = Integer.parseInt(keyValuePair.getValue());
+                String meanValue= "";
+                String medianValue= "";
+                String totalValue= "";
                 String municipalityCode = keys[0];
                 String educationLevel = keys[1];
                 String gender = keys[2];
                 String ageRange = keys[3];
                 String incomeRange = keys[4];
                 String year = keys[5];
+                for (KeyValuePair mean: meanList) {
+                    String[] keys1 = mean.getKey();
+                    String municipalityCode1 = keys1[0];
+                    String educationLevel1 = keys1[1];
+                    String gender1 = keys1[2];
+                    String ageRange1 = keys1[3];
+                    String incomeRange1 = keys1[4];
+                    String year1 = keys1[5];
+                    if (municipalityCode1.equals(municipalityCode) && educationLevel1.equals(educationLevel) &&
+                            gender1.equals(gender) && ageRange1.equals(ageRange) && incomeRange1.equals(incomeRange) && year1.equals(year)) {
+                        meanValue= mean.getValue();
+                        session.run("MERGE (g:Persons_Income_Mean {value: $mean})", parameters("mean", meanValue));
+                    }
+                }
+                for (KeyValuePair median: medianList) {
+                    String[] keys1 = median.getKey();
+                    String municipalityCode1 = keys1[0];
+                    String educationLevel1 = keys1[1];
+                    String gender1 = keys1[2];
+                    String ageRange1 = keys1[3];
+                    String incomeRange1 = keys1[4];
+                    String year1 = keys1[5];
+                    if (municipalityCode1.equals(municipalityCode) && educationLevel1.equals(educationLevel) &&
+                            gender1.equals(gender) && ageRange1.equals(ageRange) && incomeRange1.equals(incomeRange) && year1.equals(year)) {
+                        medianValue= median.getValue();
+                        session.run("MERGE (g:Persons_Income_Median {value: $median})", parameters("median", medianValue));
+                    }
+                }
+                for (KeyValuePair tot:totalIncomeList) {
+                    String[] keys1 = tot.getKey();
+                    String municipalityCode1 = keys1[0];
+                    String educationLevel1 = keys1[1];
+                    String gender1 = keys1[2];
+                    String ageRange1 = keys1[3];
+                    String incomeRange1 = keys1[4];
+                    String year1 = keys1[5];
+                    if (municipalityCode1.equals(municipalityCode) && educationLevel1.equals(educationLevel) &&
+                            gender1.equals(gender) && ageRange1.equals(ageRange) && incomeRange1.equals(incomeRange) && year1.equals(year)) {
+                        totalValue= tot.getValue();
+                        session.run("MERGE (g:Persons_Income_Total {value: $tot})", parameters("tot", totalValue));
+                    }
+                }
+
 
                 session.run("MERGE (g:Gender {name: $gender})", parameters("gender", gender));
                 session.run("MERGE (e:Education_Level {name: $educationLevel})", parameters("educationLevel", educationLevel));
@@ -533,6 +583,15 @@ public class PushToDB {
                                             "MATCH (i:Income {value: $income}) " +
                                             "MERGE (p)-[:HAS_INCOME]->(i) " +
                                             "WITH p " +
+                                            "MATCH (e:Persons_Income_Mean {value: $mean}) " +
+                                            "MERGE (p)-[:PART_OF_INCOME_MEAN]->(e) " +
+                                            "WITH p " +
+                                            "MATCH (d:Persons_Income_Median {value: $median}) " +
+                                            "MERGE (p)-[:PART_OF_INCOME_MEDIAN]->(d) " +
+                                            "WITH p " +
+                                            "MATCH (t:Persons_Income_Total {value: $tot}) " +
+                                            "MERGE (p)-[:PART_OF_INCOME_Total]->(t) " +
+                                            "WITH p " +
                                             "MATCH (y:Year {value: $year}) " +
                                             "MERGE (p)-[:PARTICIPATED_IN]->(y)",
                                     parameters(
@@ -541,6 +600,9 @@ public class PushToDB {
                                             "level", educationLevel,
                                             "age", ageRange,
                                             "income", incomeRange,
+                                            "mean", meanValue,
+                                            "median", medianValue,
+                                            "tot", totalValue,
                                             "year", year
                                     )
                             );

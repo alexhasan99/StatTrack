@@ -1,9 +1,10 @@
 package stattrack.stattrack.PushAPIs;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MunicipalityCodeLookup {
-    private Map<String, String> municipalityMap = new HashMap<>();
+    private Map<String, String> municipalityMap = new LinkedHashMap<>();
 
     public MunicipalityCodeLookup() {
         municipalityMap.put("0114", "Upplands Väsby");
