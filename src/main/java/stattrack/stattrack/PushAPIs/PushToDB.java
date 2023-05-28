@@ -323,7 +323,7 @@ public class PushToDB {
                 String year2 = keys2[3];
                 if (municipalityCode2.equals(municipalityCode) && housingType2.equals(housingType) & dwellingSize2.equals(dwellingSize) && year2.equals(year)) {
                     personCount = keyValuePair2.getValue();
-                    session.run("MERGE (d:NumberOfPerson {value: $personCount})", parameters("personCount", personCount));
+                    session.run("MERGE (d:Number_OF_Persons {value: $personCount})", parameters("personCount", personCount));
                     break;
                 }
             }
@@ -358,7 +358,7 @@ public class PushToDB {
                                         "MATCH (s:Dwelling_Housing_Size {name: $size}) " +
                                         "MERGE (d)-[:HAS_DWELLING_SIZE]->(s) " +
                                         "WITH d " +
-                                        "MATCH (e:NumberOfPerson {value: $personCount}) " +
+                                        "MATCH (e:Number_OF_Persons {value: $personCount}) " +
                                         "MERGE (d)-[:HAS_NUMBER_OF_PERSON]->(e) " +
                                         "WITH d " +
                                         "MATCH (y:Year {value: $year}) " +
@@ -629,13 +629,9 @@ public class PushToDB {
         PushToDB p = new PushToDB();
         p.connect();
         p.pushCounties();
-        p.pushFirstApi();
-        p.pushSecondApi();
-        p.pushThirdApi();
-        p.pushFourthApi();
+
         p.pushFifthApi();
-        p.pushSixthApi();
-        p.pushSeventhApi();
+
         p.disconnect();
     }
 }
