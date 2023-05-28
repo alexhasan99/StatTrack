@@ -308,7 +308,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n" +
-                "          \"0010\"\n"+
+                "          \"0010\",\n" +
                 "          \"0020\"\n" +
                 "        ]\n" +
                 "      }\n" +
@@ -320,7 +320,7 @@ public class ApiQueries {
                 "        \"values\": [\n" +
                 "          \"1\",\n" +
                 "          \"2\",\n" +
-                "          \"3\",\n" +
+                "          \"3\"\n" +
                 "        ]\n" +
                 "      }\n" +
                 "    },\n" +
@@ -342,7 +342,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                + addCode +
+                        +addCode+
                 "        ]\n" +
                 "      }\n" +
                 "    },\n" +
@@ -351,7 +351,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                + addYear +
+                        +addYear+
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +

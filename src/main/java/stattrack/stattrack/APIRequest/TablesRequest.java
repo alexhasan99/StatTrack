@@ -26,13 +26,6 @@ public class TablesRequest {
             Dataset dataset = new Dataset(apiUrl, apiQuery);
             List<KeyValuePair> keyValuePairs = dataset.getData();
 
-            // Print the retrieved data for the current year
-            /*for (KeyValuePair keyValuePair : keyValuePairs) {
-                String[] key = keyValuePair.getKey();
-                String value = keyValuePair.getValue();
-                System.out.println(Arrays.toString(key));
-                System.out.println(value);
-            }*/
             // Add the retrieved data for the current year to the overall list
             allKeyValuePairs.addAll(keyValuePairs);
             requestCount++;  // Increment the request count
@@ -381,14 +374,7 @@ public class TablesRequest {
                 JSONArray jsonArray = new JSONArray(results.get("data").toString());
                 Dataset dataset = new Dataset(api7Url, apiQuery);
                 List<KeyValuePair> keyValuePairs = dataset.getData();
-                for (KeyValuePair keyValuePair : keyValuePairs) {
-                    String[] key = keyValuePair.getKey();
-                    String value = keyValuePair.getValue();
-                    System.out.println(Arrays.toString(key));
-                    System.out.println(value);
-                }
                 allKeyValuePairs.addAll(keyValuePairs);
-
                 requestCount++;  // Increment the request count
 
                 // Check if rate limit is reached and apply the delay
@@ -408,7 +394,7 @@ public class TablesRequest {
 
 
     public static List<KeyValuePair> seventhFirstApi() throws MalformedURLException, InterruptedException {
-        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 1));
+        return updateSeventhApiKeys(apiRequestForSeventh(2021, 2021, 1));
     }
 
     public static List<KeyValuePair> seventhSecondApi() throws MalformedURLException, InterruptedException {
