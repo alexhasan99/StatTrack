@@ -394,7 +394,7 @@ public class TablesRequest {
 
 
     public static List<KeyValuePair> seventhFirstApi() throws MalformedURLException, InterruptedException {
-        return updateSeventhApiKeys(apiRequestForSeventh(2021, 2021, 1));
+        return updateSeventhApiKeys(apiRequestForSeventh(2000, 2021, 1));
     }
 
     public static List<KeyValuePair> seventhSecondApi() throws MalformedURLException, InterruptedException {
