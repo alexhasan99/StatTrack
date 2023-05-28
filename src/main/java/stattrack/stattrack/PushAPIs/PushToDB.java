@@ -629,9 +629,13 @@ public class PushToDB {
         PushToDB p = new PushToDB();
         p.connect();
         p.pushCounties();
-
+        p.pushFirstApi();
+        p.pushSecondApi();
+        p.pushThirdApi();
+        p.pushFourthApi();
         p.pushFifthApi();
-
+        p.pushSixthApi();
+        p.pushSeventhApi();
         p.disconnect();
     }
 }
