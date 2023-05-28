@@ -1,4 +1,4 @@
-# Project: Deploying a network database through API calls
+# Project: Deploying a network database through API calls (StatTrack)
 This project aims to create a network database using Java/Python and Neo4j to store and connect data from SCB (Statistics Sweden). SCB provides datasets about the census and other important information about Sweden. The objective is to design an application that can read data from the SCB API and populate the Neo4j database based on a specific design. The project also includes creating a simple dashboard to demonstrate some of the datasets.
 ## Introduction
 SCB, Statistics Sweden (https://www.scb.se) publishes datasets about the census and other important information about Sweden. There is a need to connect this data across other studies for cross-theme analysis.
