@@ -156,7 +156,7 @@ public class ApiQueries {
                 "      \"selection\": {\n" +
                 "        \"filter\": \"item\",\n" +
                 "        \"values\": [\n"
-                + addYear +
+                        + addYear +
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +
