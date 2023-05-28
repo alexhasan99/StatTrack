@@ -3,11 +3,11 @@ This project aims to create a network database using Java/Python and Neo4j to st
 ## Introduction
 SCB, Statistics Sweden (https://www.scb.se) publishes datasets about the census and other important information about Sweden. There is a need to connect this data across other studies for cross-theme analysis.
 
-This project aims to design a network database to store data from SCB. A Python/Java-based application will be created using the official API to read the data and push it into Neo4j based on the design. The objective is to track new data points and changes to the selected sources in the network database. Additionally, a simple dashboard will be demonstrated using some of the datasets.
+This project aims to design a network database to store data from SCB. A Java-based application will be created using the official API to read the data and push it into Neo4j based on the design. The objective is to track new data points and changes to the selected sources in the network database. Additionally, a simple dashboard will be demonstrated using some of the datasets.
 
 ## Installation
 1. Clone the repository: `git clone https://github.com/alexhasan99/StatTrack`
-2. Install the required dependencies: `pip install -r requirements.txt` (for Python) or set up the Java environment accordingly.
+2. Install the required dependencies for the Java environment accordingly.
 3. Set up a Neo4j database and configure the connection details.
 4. Obtain API keys or access credentials from SCB (Statistics Sweden) to access the required datasets.
 5. Set up the necessary environment variables or configuration files to store the API keys securely.
